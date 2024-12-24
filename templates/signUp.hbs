@@ -6,6 +6,10 @@
     <title>Document</title>
 </head>
 <body>
+   {{#if error}}
+    <p style="color: red;">{{error}}</p>
+{{/if}}
+
     <h2>Sign Up</h2>
     <form action = "/signUp" method = "post">
     <input type="text" name ="name" placeholder="Name">
