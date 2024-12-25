@@ -16,7 +16,12 @@ const LogInSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
-    }
+    },
+    loginAttempts: {
+        type: Number,
+        required: true,
+        default: 0, 
+    },
 })
 
 
