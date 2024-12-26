@@ -90,7 +90,7 @@ app.post("/signUp", async (req, res) => {
         const existingUser = await collection.findOne({ name });
         if (existingUser) {
             return res.render("signUp", { 
-                error: "Username already exists. Please choose a different one." 
+                error: "Username already exists. Please choose a different one or logIn if its you." 
             });
         }
 

@@ -27,5 +27,5 @@ const LogInSchema = new mongoose.Schema({
 })
 
 
-const collection= new moongoose.model("Collection1",LogInSchema)
+const collection = new moongoose.model("Collection1",LogInSchema)
 module.exports=collection
