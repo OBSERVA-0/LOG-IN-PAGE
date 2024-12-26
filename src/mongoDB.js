@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
-const moongose = require("mongoose")
+const moongoose = require("mongoose")
 
-moongose.connect("mongodb://localhost:27017/SignUpDB")
+moongoose.connect("mongodb://localhost:27017/SignUpDB")
 .then(()=>{
     console.log("mongoDb connected");
 })
@@ -25,5 +25,5 @@ const LogInSchema = new mongoose.Schema({
 })
 
 
-const collection= new moongose.model("Collection1",LogInSchema)
+const collection= new moongoose.model("Collection1",LogInSchema)
 module.exports=collection

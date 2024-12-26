@@ -1,126 +1,146 @@
 /* Shared Form Styles for Login and Signup */
 
-/* Form Container */
-body{
-    background-color: #4d5562;
+/* Body Styling */
+body {
+    background: linear-gradient(120deg, #2e2e38, #9e4444,rgb(54, 176, 164));
+    color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    animation: fadeInBackground 1.5s ease-in-out;
 }
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Form Container */
 .form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    background-color: #1f1f1f;
+    gap: 15px;
+    background: rgba(31, 31, 31, 0.95);
     padding: 30px;
-    max-width: 450px; /* Ensure both forms fit nicely */
+    max-width: 450px;
     width: 100%;
     border-radius: 20px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for better visibility */
-  }
-  
-  /* Placeholder Text */
-  ::placeholder {
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+    animation: slideIn 1s ease-out;
+}
+
+/* Placeholder Text */
+::placeholder {
     font-family: inherit;
     color: #aaa;
-  }
-  
-  /* Form Buttons */
-  .form button {
+}
+
+/* Form Buttons */
+.form button {
     align-self: flex-end;
     cursor: pointer;
-  }
-  
-  /* Input Labels */
-  .flex-column > label {
+}
+
+/* Input Labels */
+.flex-column > label {
     color: #f1f1f1;
     font-weight: 600;
-  }
-  
-  /* Input Fields Container */
-  .inputForm {
-    border: 1.5px solid #333;
+    font-size: 1rem;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Input Fields Container */
+.inputForm {
+    border: 2px solid #444;
     border-radius: 10px;
     height: 50px;
     display: flex;
     align-items: center;
     padding-left: 10px;
-    transition: 0.2s ease-in-out;
-    background-color: #2b2b2b;
-  }
-  
-  /* Text Input Fields */
-  .input {
+    transition: all 0.3s ease-in-out;
+    background: linear-gradient(120deg, #2b2b2b, #333333);
+}
+
+.inputForm:focus-within {
+    border-color: #e907da;
+    box-shadow: 0 0 10px rgba(233, 7, 218, 0.8);
+}
+
+/* Text Input Fields */
+.input {
     margin-left: 10px;
-    border-radius: 10px;
     border: none;
     width: 100%;
     height: 100%;
-    background-color: #2b2b2b;
+    background: none;
     color: #f1f1f1;
-  }
-  
-  .input:focus {
+    font-size: 1rem;
+}
+
+.input:focus {
     outline: none;
-  }
-  
-  /* Focus State for Input Fields */
-  .inputForm:focus-within {
-    border: 1.5px solid #f60767;
-  }
-  
-  /* Flex Row for Inline Elements (e.g., Checkboxes) */
-  .flex-row {
+}
+
+/* Flex Row for Inline Elements */
+.flex-row {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
     justify-content: space-between;
-  }
-  
-  .flex-row > div > label {
-    font-size: 14px;
+}
+
+.flex-row > div > label {
+    font-size: 0.9rem;
     color: #f1f1f1;
     font-weight: 400;
-  }
-  
-  /* Clickable Text Span */
-  .span {
-    font-size: 14px;
+}
+
+/* Clickable Text Span */
+.span {
+    font-size: 0.9rem;
     margin-left: 5px;
-    color: #e907da;
+    color: #2d79f3;
     font-weight: 500;
     cursor: pointer;
-  }
-  
-  /* Submit Button */
-  .button-submit {
+    transition: color 0.3s ease-in-out;
+}
+
+.span:hover {
+    color: #2267c9;
+}
+
+/* Submit Button */
+.button-submit {
     margin: 20px 0 10px 0;
-    background-color: #2d79f3;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
     border: none;
     color: white;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: 600;
     border-radius: 10px;
     height: 50px;
     width: 100%;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  .button-submit:hover {
-    background-color: #2267c9; /* Slightly darker shade on hover */
-  }
-  
-  /* Paragraph Text */
-  .p {
-    text-align: center;
-    color: #f1f1f1;
-    font-size: 15px;
-    margin: 5px 0;
-  }
-  
-  /* Secondary Buttons (e.g., "Continue with Google") */
-  .btn {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.button-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 15px rgba(255, 105, 135, 0.5);
+}
+
+.button-submit:active {
+    transform: scale(0.95);
+    box-shadow: 0px 4px 10px rgba(255, 105, 135, 0.3);
+}
+
+/* Secondary Buttons */
+.btn {
     margin-top: 10px;
     width: 100%;
     height: 50px;
@@ -130,19 +150,73 @@ body{
     align-items: center;
     font-weight: 500;
     gap: 10px;
-    border: 1px solid #333;
-    background-color: #2b2b2b;
+    border: 2px solid #444;
+    background: linear-gradient(120deg, #2b2b2b, #333333);
     color: #f1f1f1;
     cursor: pointer;
-    transition: 0.2s ease-in-out;
-  }
-  
-  .btn:hover {
-    border: 1px solid #2d79f3;
-  }
-  a {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    border-color: #2d79f3;
+    box-shadow: 0px 4px 12px rgba(45, 121, 243, 0.5);
+}
+
+/* Paragraph Text */
+.p {
+    text-align: center;
+    color: #f1f1f1;
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+/* Links */
+a {
     color: #2d79f3;
     font-weight: bold;
     font-size: larger;
-  }
-  
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+    color: #2267c9;
+}
+
+/* Animations */
+@keyframes fadeInBackground {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .form {
+        padding: 20px;
+    }
+    
+    .button-submit {
+        font-size: 0.9rem;
+    }
+}
+h2 {
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Center-align text */
+    color: #f1f1f1;
+}

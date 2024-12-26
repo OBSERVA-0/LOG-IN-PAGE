@@ -36,42 +36,85 @@ app.get("/resetpassword", (req, res) => {
 });
 
 
+const bcrypt = require('bcrypt');
+
 app.post("/logIn", async (req, res) => {
     const { name, password } = req.body;
-    let count=5;
 
     try {
-        const user = await collection.findOne({ name });
+        const user = await collection.findOne({ name:name.toLowerCase() });
 
-        if (user) {
-            if (user.password === password) {
-                res.render("home", { name: user.name });
-            } else {
-                res.render("logIn", { error: "Wrong password. Please try again. You have"+ count + "tries remaining" });
-                count--;
-            }
-            if(count === 0){{
-                res.render("resetpassword",{error: "Please reset your password to continue"})
-
-            }}
-        } else {
-            res.render("logIn", { error: "Account not found. Please sign up for a new account." });
+        if (!user) {
+            return res.render("signUp", { 
+                error: "Account not found. Please sign up for a new account." 
+            });
         }
+
+        if (user.loginAttempts > 5) {
+            return res.render("resetpassword", { 
+                error: "You have attempted to log in too many times. Please reset your password." 
+            });
+        }
+
+        // Compare hashed passwords
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        // if (isMatch) {
+        //     await collection.updateOne({ name.toLowerCase()}, { $set: { loginAttempts: 0 } });
+        //     return res.render("home", { name });
+        // }
+        if (isMatch) {
+            await collection.updateOne(
+                 { name: name.toLowerCase()},  // Match case-insensitive username
+                 { $set: {loginAttempts: 0 } }
+             );    
+                return res.render("home", { name });
+         }
+
+        // Handle wrong password
+        const newAttempts = user.loginAttempts + 1;
+        await collection.updateOne({ name:name.toLowerCase() }, { $set: { loginAttempts: newAttempts } });
+        
+        res.render("logIn", { 
+            error: `Wrong password. You have ${5 - newAttempts} tries remaining.` 
+        });
+
     } catch (error) {
         console.error("Error during login:", error);
         res.status(500).send("Internal Server Error");
     }
 });
 
+
 app.post("/signUp", async (req, res) => {
     const { name, password } = req.body;
+    
+    // if (!name || !password) {
+    //     return res.render("signUp", {
+    //         error: "Both username/email and password are required.",
+    //     });
+    // }
 
     try {
-        // Insert the new user into the database
-        const data = { name, password };
-        await collection.insertMany([data]);
+        // Check if user already exists
+        const existingUser = await collection.findOne({ name });
+        if (existingUser) {
+            return res.render("signUp", { 
+                error: "Username already exists. Please choose a different one." 
+            });
+        }
 
-        // Render the home page after successful signup
+        // Hash password before storing
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insert new user with hashed password
+        await collection.insertMany({ 
+            name: name.toLowerCase(),  // Ensure the field is consistent
+            password: hashedPassword,
+            loginAttempts: 0 
+        });
+
         res.render("home", { name });
     } catch (error) {
         console.error("Error during signup:", error);
@@ -79,11 +122,45 @@ app.post("/signUp", async (req, res) => {
     }
 });
 
-app.post("/resetpassword",async (req,res) =>{
-    const { name, password } = req.body;
-    const getuser = collection.await
-    
-})
+app.post("/resetpassword", async (req, res) => {
+    const { name, newPassword } = req.body;
+
+    if (!name || !newPassword) {
+        return res.render("resetpassword", {
+            error: "Both username/email and new password are required.",
+        });
+    }
+
+    try {
+        // console.log("Request body:", { name, passwordLength: newPassword?.length });
+        
+        const user = await collection.findOne({ name });
+        // console.log("User found:", !!user);
+        
+        if (!user) {
+            return res.render("signUp", {
+                error: "Account not found. Please sign up for a new account.",
+            });
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+        // console.log("Password hashed successfully");
+
+        const updateResult = await collection.updateOne(
+            { name: name.toLowerCase()},  // Match case-insensitive username
+            { $set: { password: hashedPassword, loginAttempts: 0 } }
+        );
+        // console.log("Update result:", updateResult);
+
+        res.render("logIn", {
+            error: "Password reset successful. Please log in with your updated password.",
+        });
+    } catch (error) {
+        console.error("Detailed error:", error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 // Start the server
 app.listen(3000, (err) => {
