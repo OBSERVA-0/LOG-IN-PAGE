@@ -1,3 +1,5 @@
+
+//mongoDb setup to communicaate with mongodb servers/.database
 const { default: mongoose } = require("mongoose");
 const moongoose = require("mongoose")
 
